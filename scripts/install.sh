@@ -103,7 +103,6 @@ install_systemd() {
     # Generate secrets if they don't exist
     if [ ! -f "$CONFIG_DIR/master_key" ]; then
         openssl rand -hex 32 > "$CONFIG_DIR/master_key"
-        chmod 640 "$CONFIG_DIR/master_key"
         echo "Generated master key"
     else
         echo "Master key already exists, skipping"
@@ -111,16 +110,17 @@ install_systemd() {
 
     if [ ! -f "$CONFIG_DIR/admin_token" ]; then
         openssl rand -hex 32 > "$CONFIG_DIR/admin_token"
-        chmod 640 "$CONFIG_DIR/admin_token"
         echo "Generated admin token"
     else
         echo "Admin token already exists, skipping"
     fi
 
-    # Set ownership
+    # Set ownership and permissions (always, even if files pre-existed)
     chown -R "$SERVICE_USER:$SERVICE_USER" "$DATA_DIR"
     chown root:"$SERVICE_USER" "$CONFIG_DIR"
     chown root:"$SERVICE_USER" "$CONFIG_DIR/master_key" "$CONFIG_DIR/admin_token"
+    chmod 750 "$CONFIG_DIR"
+    chmod 640 "$CONFIG_DIR/master_key" "$CONFIG_DIR/admin_token"
 
     # Install systemd unit
     cat > "/etc/systemd/system/${SERVICE_NAME}.service" <<'UNIT'
