@@ -45,38 +45,36 @@ Adding a new provider is a 5-line entry in `proxy/vendors.go`.
 
 ## Quick start
 
-### Install
+### Install (one command, production-ready)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Pfgoriaux/clawring/main/scripts/install.sh | sudo bash -s -- --systemd
+```
+
+This single command:
+- Downloads the binary to `/usr/local/bin/`
+- Creates a `openclaw-proxy` system user
+- Generates a master key and admin token
+- Sets up directories with locked-down permissions
+- Installs and starts a hardened systemd service
+
+Your admin token is printed at the end — save it.
+
+### Install (binary only)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Pfgoriaux/clawring/main/scripts/install.sh | bash
 ```
 
-Downloads the binary to `~/.local/bin/`. No sudo, no config, no dependencies.
+Downloads the binary to `~/.local/bin/`. No sudo, no config, no dependencies. You manage secrets and startup yourself.
 
-Or build from source:
+### Build from source
 
 ```bash
 git clone https://github.com/Pfgoriaux/clawring.git
 cd clawring
 go build -o clawring .
 ```
-
-### Setup
-
-Generate a master key and admin token, then run:
-
-```bash
-mkdir -p ~/.config/clawring
-openssl rand -hex 32 > ~/.config/clawring/master_key
-openssl rand -hex 32 > ~/.config/clawring/admin_token
-
-MASTER_KEY_FILE=~/.config/clawring/master_key \
-ADMIN_TOKEN_FILE=~/.config/clawring/admin_token \
-DB_PATH=~/.config/clawring/proxy.db \
-clawring
-```
-
-A sample systemd unit is in `scripts/openclaw-proxy.service` if you want to run it as a service.
 
 ### Add an API key
 
