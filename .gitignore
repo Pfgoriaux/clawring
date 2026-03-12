@@ -1,0 +1,30 @@
+# Binary
+clawring
+openclaw-proxy
+dist/
+
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Secrets
+master_key
+admin_token
+.env
+*.key
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code
+.claude/

@@ -1,0 +1,8 @@
+.git
+.github
+.claude
+*.md
+!go.mod
+!go.sum
+LICENSE
+scripts/
